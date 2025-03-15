@@ -181,18 +181,13 @@ class WordFamily:
         """
         if len(self.words) == len(other.words):
             if self.difficulty == other.difficulty:
-                if self.feedback_colors < other.feedback_colors:
-                    return True
-                else:
-                    return False
-            elif self.difficulty < other.difficulty:
+                return bool(self.feedback_colors < other.feedback_colors)
+            if self.difficulty < other.difficulty:
                 return False
-            else:
-                return True
-        elif len(self.words) < len(other.words):
-            return False
-        else:
             return True
+        if len(self.words) < len(other.words):
+            return False
+        return True
 
     # DO NOT change this method.
     # You should use this for debugging!
@@ -438,9 +433,9 @@ def get_feedback(remaining_secret_words, guessed_word):
         word_families_dict[feedback_colors_str] += [secret_word] #build word list
     # Make a word familiy lst
     word_family_list = []
-    for feedback_colors_str, _ in word_families_dict.items():
+    for feedback_colors_str, values in word_families_dict.items():
         word_family_list.append(WordFamily(feedback_colors_dict[feedback_colors_str], \
-                                           word_families_dict[feedback_colors_str]))
+                                           values))
 
     sorted_word_families = fast_sort(word_family_list)
     hardest_word_family = sorted_word_families[0]
